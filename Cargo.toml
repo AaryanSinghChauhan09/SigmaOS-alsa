@@ -1,0 +1,10 @@
+[package]
+name = "sigmaos_alsa"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[lib]
+name = "sigmaos_alsa"
+path = "src/lib.rs"
