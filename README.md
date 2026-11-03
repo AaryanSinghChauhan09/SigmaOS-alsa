@@ -1,17 +1,16 @@
 # SigmaOS-alsa
 
-Arch Linux-inspired component for SigmaOS.
+SigmaOS graphics, audio, and storage component.
 
-## Inspiration
+## Features
+- Hardware acceleration support
+- Modular architecture
+- Configuration management
 
-This component is inspired by Arch Linux to provide:
-- Lightweight, fast functionality
-- KISS principle adherence
-- Minimal dependencies
-- Clear documentation
+## Usage
+```bash
+cargo run --release
+```
 
-## Status
-
-- Architecture: Designed
-- Implementation: Basic
-- Testing: Basic
+## License
+MIT

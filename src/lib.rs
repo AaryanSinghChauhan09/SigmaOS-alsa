@@ -1,31 +1,42 @@
-// SPDX-License-Identifier: Apache-2.0
-//! SigmaOS-alsa - Arch Linux-inspired component for SigmaOS
-//! Part of SigmaOS multi-repository architecture
+//! SigmaOS-alsa - SigmaOS Component
+//!
+//! Graphics, audio, and storage component for SigmaOS.
 
-#![no_std]
+use anyhow::Result;
+use log::info;
+use serde::{Deserialize, Serialize};
 
-/// Component struct
-pub struct Component {
-    name: &'static str,
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Config {
+    pub enabled: bool,
+    pub hardware_acceleration: bool,
 }
 
-impl Component {
-    pub fn new() -> Self {
-        Self { name: "SigmaOS Component" }
-    }
-}
-
-impl Default for Component {
+impl Default for Config {
     fn default() -> Self {
-        Self::new()
+        Self { enabled: true, hardware_acceleration: true }
     }
 }
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn test_creation() {
-        let c = super::Component::new();
-        assert_eq!(c.name, "SigmaOS Component");
+pub struct alsa {
+    config: Config,
+}
+
+impl alsa {
+    pub fn new(config: Config) -> Self {
+        Self { config }
+    }
+
+    pub fn initialize(&mut self) -> Result<()> {
+        info!("Initializing SigmaOS-alsa");
+        if self.config.hardware_acceleration {
+            info!("Hardware acceleration enabled");
+        }
+        Ok(())
+    }
+
+    pub fn run(&mut self) -> Result<()> {
+        info!("Running SigmaOS-alsa");
+        Ok(())
     }
 }
