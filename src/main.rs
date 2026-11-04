@@ -1,41 +1,22 @@
-use std::env;
-use log::{info, warn, error, debug};
+mod config;
+mod error;
+mod service;
+
+use config::Config;
+use service::Service;
 use anyhow::Result;
-use clap::Parser;
-use alsa::alsa;
 
-#[derive(Parser)]
-struct Cli {
-    #[arg(short, long)]
-    no_hw_accel: bool,
-}
-
-fn main() -> Result<()> { -> Result<()> {
-    let cli = Cli::parse();
-    let config = alsa::Config { 
-        hardware_acceleration: !cli.no_hw_accel, 
-        ..Default::default() 
-    };
-    let mut component = alsa::new(config);
+fn main() -> Result<()> {
+    env_logger::init();
     
-    component.initialize()?;
-    component.run()?;
+    let config = Config::default();
+    let mut service = Service::new(config);
     
-    println!("SigmaOS-alsa ready");
+    service.start()?;
+    println!("Service started successfully");
+    
+    service.stop()?;
+    println!("Service stopped successfully");
+    
     Ok(())
-}
-
-#[derive(Debug, Clone)]
-struct Config {
-    verbose: bool,
-    dry_run: bool,
-}
-
-impl Config {
-    fn from_env() -> Self {
-        Config {
-            verbose: env::var("VERBOSE").is_ok(),
-            dry_run: env::var("DRY_RUN").is_ok(),
-        }
-    }
 }
